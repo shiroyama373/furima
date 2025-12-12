@@ -1,0 +1,90 @@
+/* ヘッダー全体 */
+.site-header {
+    background-color: #000; /* 黒背景 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 左・中央・右を横並びに */
+    padding: 30px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    gap: 10px;
+    z-index: 10;
+}
+
+/* ロゴ */
+.site-logo a {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-logo a:hover {
+    color: #ccc;
+}
+
+/* 中央：検索フォーム */
+.header-center {
+    flex-grow: 1;             /* 中央の検索フォームが広がる */
+    display: flex;
+    justify-content: center;   /* 横方向中央寄せ */
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+    max-width: 400px;         /* 最大幅 */
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-btn {
+    display: none; /* 非表示でもEnterで検索可能 */
+}
+
+/* 右側：ログイン・マイページ・出品ボタン */
+.header-right {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* 共通ボタン */
+.header-right .btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ログイン・マイページ用（白文字・透明背景） */
+.header-right .btn.white-text {
+    color: #fff !important;
+    background: transparent !important;
+    text-decoration: none !important;
+}
+
+.header-right .btn.white-text:hover {
+    opacity: 0.8;
+}
+
+
+/* 出品ボタン用（白背景） */
+.header-right .box-white {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+.header-right .box-white:hover {
+    background-color: #eee;
+}

@@ -1,0 +1,59 @@
+.verify-email-container {
+    text-align: center;
+    margin-top: 150px; /* 上余白 */
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.verify-email-container h2,
+.verify-email-container p {
+    font-size: 20px; /* 文字サイズを統一 */
+    font-weight: bold; 
+    margin-bottom: 30px;
+}
+
+.verify-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold; 
+    cursor: pointer;
+    background-color: #e0e0e0; /* 薄グレー */
+    color: #333; /* 文字色は黒っぽく */
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin: 50px 0;
+}
+
+.verify-button:hover {
+    background-color: #d5d5d5; /* ホバー時も薄めのグレー */
+}
+
+.resend-form {
+    margin-top: 20px;
+}
+
+.resend-button {
+    background: none;
+    border: none;
+    color: #3490dc; /* 青文字 */
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.resend-button:hover {
+    color: #2779bd;
+}
+
+/* 再送信完了メッセージ */
+.resent-message {
+    background-color: #d4edda; /* 薄い緑背景 */
+    color: #155724;           /* 濃い緑文字 */
+    border: 1px solid #c3e6cb; /* 緑の枠線 */
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    text-align: center;
+}

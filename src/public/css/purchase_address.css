@@ -1,0 +1,80 @@
+/* 親コンテナ */
+.purchase-container {
+    width: 90%;             /* 画面幅の90% */
+    max-width: 1000px;      /* 最大横幅 */
+    margin: 50px auto;      /* 上下50px、左右自動で中央寄せ */
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+/* タイトル */
+.edit-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 80px;
+}
+
+/* フォーム全体 */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* 中央寄せ */
+    gap: 50px;               /* 各項目の縦間隔 */
+    width: 100%;
+}
+
+/* 各入力項目のラッパー */
+.edit-form .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;               /* ラベルと入力ボックスの縦間隔 */
+}
+
+/* ラベル */
+.edit-form label {
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: left;       /* 文字の始まりを揃える */
+}
+
+/* 入力ボックス */
+.edit-form input[type="text"] {
+    width: 100%;            /* 親要素いっぱいに広げる */
+    min-width: 300px;       /* 最低幅を確保 */
+    max-width: 900px;       /* 最大幅を画面サイズに合わせる */
+    padding: 18px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* 更新ボタン */
+.update-btn {
+    width: 100%;
+    max-width: 900px;       /* 入力ボックスと同じ幅に揃える */
+    margin-top: 80px;       /* 上の余白を広く */
+    padding: 18px;
+    background-color: red;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.update-btn:hover {
+    background-color: darkred;
+}

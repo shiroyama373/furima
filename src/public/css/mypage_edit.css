@@ -1,0 +1,102 @@
+.profile-edit-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 写真セクション */
+.photo-section {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #ccc; /* グレー丸 */
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* img があれば丸にフィットさせる */
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 初期は画像がないので丸グレーだけ表示 */
+.profile-photo img[src=""] {
+    display: none;
+}
+
+.photo-button .file-label {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 2px solid red; /* 赤線 */
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: red; /* 文字も赤 */
+    text-align: center;
+}
+
+
+.photo-button input[type="file"] {
+    display: none;
+}
+
+/* フォームボックス */
+.form-group {
+    margin-bottom: 60px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+/* エラー表示 */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* 更新ボタン */
+.update-button {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.update-button:hover {
+    opacity: 0.9;
+}

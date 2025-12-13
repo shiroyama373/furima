@@ -1,0 +1,232 @@
+/* 全体コンテナ */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* タイトル */
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+/* セクション */
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h2 {
+    margin-top: 50px;   /* 上の余白 */
+    margin-bottom: 0px; /* 下の余白 */
+}
+
+/* ラベル（h3）の下マージンを小さくする */
+.form-section h3 {
+    margin-bottom: 2px;  
+    font-size: 16px;
+}
+
+.form-section hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin-bottom: 30px; 
+}
+
+/* 外枠 */
+.image-box-outer {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin: 10px auto;
+    height: 200px;          /* 外枠の高さ */
+    position: relative;
+    overflow: hidden;       /* はみ出す部分を隠す */
+}
+
+/* 画像（外枠いっぱいに表示） */
+.image-preview {
+    position: absolute;   /* 外枠に対して配置 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* 画像がはみ出ない */
+    z-index: 1;            /* ボタンより下 */
+}
+
+/* ボタン部分（内側のまま） */
+.image-box-inner {
+    position: relative;
+    z-index: 2;           /* 画像より上に表示 */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ボタン */
+.image-label {
+    padding: 10px 20px;
+    border: 2px solid red;
+    color: red;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.image-label input[type="file"] {
+    display: none;
+}
+
+.image-error {
+    color: red;
+    font-size: 13px;
+    margin-top: 2px;  /* ボックス直下に表示 */
+}
+
+/* カテゴリボタン */
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    margin-bottom: 10px;
+}
+
+.category-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; 
+}
+
+.category-item {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 2px solid #ff3b3b;
+    border-radius: 20px;
+    color: #ff3b3b;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.category-item.selected {
+    background-color: #ff3b3b;
+    color: #ffffff;
+}
+
+.category-item:hover {
+    opacity: 0.8;
+}
+
+/* 商品の状態 s/elect ボックス */
+select.condition-select {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: white;   /* 初期背景 */
+    color: black;              /* 初期文字色 */
+    appearance: none;          /* ブラウザ固有の矢印を非表示にしない */
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+}
+
+/* 選択済み（空じゃない）時の文字色 */
+select.condition-select:not([value=""]) {
+    color: black;  /* 選択後も黒文字、背景白 */
+}
+
+/* option の色 */
+select.condition-select option {
+    background-color: #f0f0f0;  /* 薄いグレー */
+    color: black;
+}
+
+/* 初期の「選択してください」の色 */
+select.condition-select option[value=""] {
+    background-color: white;
+    color: black;
+}
+
+/* 入力ボックス */
+input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 0;
+    margin-bottom: 2px;  /* エラー直下に */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* 商品名・商品の説明専用調整（必要に応じて） */
+input[name="name"],
+textarea[name="description"],
+input[name="brand"] {
+    margin-bottom: 2px;  /* エラー直下に */
+}
+
+/* 商品説明の高さ固定 */
+textarea[name="description"] {
+    height: 150px;
+    resize: none;
+}
+
+/* 価格 */
+.price-box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 2px; /* エラー直下に */
+}
+
+.price-box .yen {
+    font-weight: bold;
+}
+
+.price-box input[type="number"] {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0;
+    font-size: 14px;
+}
+
+/* 出品ボタン */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 50px; 
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* エラー表示 */
+.error,
+.image-error {
+    color: red;
+    font-size: 13px;
+    margin-top: 2px;   /* 入力ボックス・ボックス直下に */
+    margin-bottom: 10px; /* 下の要素との距離 */
+}

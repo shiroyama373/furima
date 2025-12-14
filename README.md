@@ -16,6 +16,7 @@ docker-compose up -d
 
 ```bash
 docker-compose exec php bash
+cd /var/www
 composer install
 cp .env.example .env      # 環境変数を変更
 php artisan key:generate

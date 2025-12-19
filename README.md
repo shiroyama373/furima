@@ -47,7 +47,7 @@ php artisan storage:link
 
 ## ER図
 
-![ER図](images/furima.drawio.png)
+![ER図](images/furima2.drawio.png)
 
 ## 注意事項
 - Docker 環境によって MySQL が起動しない場合があります

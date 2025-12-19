@@ -47,14 +47,14 @@ php artisan storage:link
 
 ## ER図
 
-![ER図](images/furima2.drawio.png)
+![ER図](images/furima_er_diagram.png)
 
 ## 注意事項
 - Docker 環境によって MySQL が起動しない場合があります
-- 既存のポートが重複しているとコンテナが起動できません
-- Stripe 決済はテスト用キーで動作確認可能です
+- 既存のポートが重複しているとコンテナが起動できません- Stripe 決済はテスト用キーで動作確認可能です
 - メール送信は Mailpit を通して確認できます（ユーザーには送信されません）
 - コンビニ決済はテスト環境では、Webhookを動かすために Stripe Dashboard で ‘Mark as paid’ を押す必要があります
+
 
 ## ダミーデータについて
 

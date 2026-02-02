@@ -16,8 +16,12 @@ class Purchase extends Model
     'item_id',
     'payment_method',
     'postal_code',
+    'prefecture',
+    'city',
+    'street',
     'address',
     'building',
+    'phone_number',
 ];
 
     // Userとのリレーション（PurchaseはUserに属する）

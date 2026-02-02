@@ -30,6 +30,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 600px;
     gap: 10px;               /* ラベルと入力ボックスの縦間隔 */
 }
 
@@ -43,8 +44,7 @@
 /* 入力ボックス */
 .edit-form input[type="text"] {
     width: 100%;            /* 親要素いっぱいに広げる */
-    min-width: 300px;       /* 最低幅を確保 */
-    max-width: 900px;       /* 最大幅を画面サイズに合わせる */
+    max-width: 600px;       /* 最大幅を画面サイズに合わせる */
     padding: 18px 12px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -62,7 +62,7 @@
 /* 更新ボタン */
 .update-btn {
     width: 100%;
-    max-width: 900px;       /* 入力ボックスと同じ幅に揃える */
+    max-width: 600px;       /* 入力ボックスと同じ幅に揃える */
     margin-top: 80px;       /* 上の余白を広く */
     padding: 18px;
     background-color: red;

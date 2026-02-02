@@ -10,19 +10,24 @@
     // 🔥 ログインしていればマイリスト、ゲストはおすすめを初期表示
     $defaultTab = auth()->check() ? 'mylist' : 'recommend';
     $currentTab = request('tab', $defaultTab);
+    $keyword    = request('keyword');
 @endphp
 
 <div class="items-body">
 
     <!-- おすすめ / マイリストタブ -->
     <div class="tabs">
-        <a href="{{ route('items.index', ['tab' => 'recommend']) }}"
-           class="tab {{ $currentTab === 'recommend' ? 'active' : '' }}">
+        <a
+            href="{{ route('items.index', ['tab' => 'recommend', 'keyword' => $keyword]) }}"
+            class="tab {{ $currentTab === 'recommend' ? 'active' : '' }}"
+        >
             おすすめ
         </a>
 
-        <a href="{{ route('items.index', ['tab' => 'mylist']) }}"
-           class="tab {{ $currentTab === 'mylist' ? 'active' : '' }}">
+        <a
+            href="{{ route('items.index', ['tab' => 'mylist', 'keyword' => $keyword]) }}"
+            class="tab {{ $currentTab === 'mylist' ? 'active' : '' }}"
+        >
             マイリスト
         </a>
     </div>
@@ -34,7 +39,10 @@
     <div class="items-list">
         @foreach ($items as $item)
             @php
-                $imageUrl = \Illuminate\Support\Str::startsWith($item->image_path, ['http://','https://'])
+                $imageUrl = \Illuminate\Support\Str::startsWith(
+                    $item->image_path,
+                    ['http://', 'https://']
+                )
                     ? $item->image_path
                     : asset('storage/' . $item->image_path);
             @endphp
@@ -46,7 +54,11 @@
                     @endif
 
                     <a href="{{ route('items.show', $item->id) }}">
-                        <img src="{{ $imageUrl }}" alt="{{ $item->name }}" class="item-image">
+                        <img
+                            src="{{ $imageUrl }}"
+                            alt="{{ $item->name }}"
+                            class="item-image"
+                        >
                     </a>
                 </div>
 

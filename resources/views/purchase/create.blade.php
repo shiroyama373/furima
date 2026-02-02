@@ -114,3 +114,27 @@
     </div>
 </div>
 @endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentSelect = document.querySelector('.payment-select');
+    const summaryPayment = document.querySelector('.summary-value');
+
+    paymentSelect.addEventListener('change', function() {
+        const selectedValue = this.value;
+        const selectedText = this.options[this.selectedIndex].text;
+
+        // サマリー部分を更新
+        const summaryItems = document.querySelectorAll('.summary-value');
+        if (summaryItems.length > 1) {
+            if (selectedValue === '') {
+                summaryItems[1].textContent = '未選択';
+            } else {
+                summaryItems[1].textContent = selectedText;
+            }
+        }
+    });
+});
+</script>
+@endsection

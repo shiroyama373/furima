@@ -34,18 +34,18 @@ class CreateNewUser implements CreatesNewUsers
             'password_confirmation' => ['required', 'same:password'],
 
         ], [
-            'name.required' => 'お名前を入力してください。',
-            'email.required' => 'メールアドレスを入力してください。',
-            'email.email' => 'メールアドレスはメール形式で入力してください。',
-            'email.unique' => 'このメールアドレスは既に使用されています。',
+            'name.required' => 'お名前を入力してください',
+            'email.required' => 'メールアドレスを入力してください',
+            'email.email' => 'メールアドレスはメール形式で入力してください',
+            'email.unique' => 'このメールアドレスは既に使用されています',
 
             // パスワード用エラー
-            'password.required' => 'パスワードを入力してください。',
-            'password.min' => 'パスワードは8文字以上で入力してください。',
+            'password.required' => 'パスワードを入力してください',
+            'password.min' => 'パスワードは8文字以上で入力してください',
 
             // 確認用エラー
-            'password_confirmation.required' => '確認用パスワードを入力してください。',
-            'password_confirmation.same' => 'パスワードと一致しません。',
+            'password_confirmation.required' => '確認用パスワードを入力してください',
+            'password_confirmation.same' => 'パスワードと一致しません',
         ])->validate();
 
         return User::create([

@@ -10,7 +10,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'description', 'price', 'condition', 'image_path', 'color', 'brand', 'sold',
+        'user_id', 'name', 'description', 'price', 'condition', 'image_path', 'brand',
     ];
 
     // 出品者
@@ -42,4 +42,17 @@ class Item extends Model
     {
         return $this->likes()->where('user_id', $user->id)->exists();
     }
+
+    // 購入済みかどうか
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class);
+    }
+
+    // sold 属性（購入済みならtrue）
+    public function getSoldAttribute()
+    {
+        return $this->purchase()->exists();
+    }
+
 }

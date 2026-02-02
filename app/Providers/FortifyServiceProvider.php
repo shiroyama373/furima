@@ -14,6 +14,7 @@ use Laravel\Fortify\Contracts\VerifyEmailViewResponse as VerifyEmailViewResponse
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -47,30 +48,36 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         // 会員登録画面
-        Fortify::registerView(fn() => view('auth.register'));
+        Fortify::registerView(fn () => view('auth.register'));
 
         // ログイン画面
-        Fortify::loginView(fn() => view('auth.login'));
+        Fortify::loginView(fn () => view('auth.login'));
 
         // ユーザー作成処理
         Fortify::createUsersUsing(CreateNewUser::class);
 
         // 認証処理（ログイン時）
         Fortify::authenticateUsing(function ($request) {
-            Validator::make($request->all(), [
-                'email' => ['required', 'email'],
-                'password' => ['required', 'string', 'min:8'],
-            ], [
-                'email.required' => 'メールアドレスを入力してください。',
-                'email.email' => 'メールアドレスはメール形式で入力してください。',
-                'password.required' => 'パスワードを入力してください。',
-                'password.min' => 'パスワードは8文字以上で入力してください。',
-            ])->validate();
+            Validator::make(
+                $request->all(),
+                [
+                    'email'    => ['required', 'email'],
+                    'password' => ['required', 'string', 'min:8'],
+                ],
+                [
+                    'email.required'    => 'メールアドレスを入力してください',
+                    'email.email'       => 'メールアドレスはメール形式で入力してください',
+                    'password.required' => 'パスワードを入力してください',
+                    'password.min'      => 'パスワードは8文字以上で入力してください',
+                ]
+            )->validate();
 
             $user = User::where('email', $request->email)->first();
 
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return null;
+            if (! $user || ! Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['ログイン情報が登録されていません'],
+                ]);
             }
 
             return $user;

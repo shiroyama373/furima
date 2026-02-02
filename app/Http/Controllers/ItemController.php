@@ -12,60 +12,62 @@ class ItemController extends Controller
     /**
      * 商品一覧
      */
-public function index(Request $request)
-{
-    /**
-     * 初期タブ設定
-     * 未ログイン → recommend
-     * ログイン後 → mylist
-     */
-    $defaultTab = Auth::check() ? 'mylist' : 'recommend';
-    $tab = $request->query('tab', $defaultTab);
+    public function index(Request $request)
+    {
+        /**
+         * 初期タブ設定
+         * 未ログイン → recommend
+         * ログイン後 → mylist
+         */
+        $defaultTab = Auth::check() ? 'mylist' : 'recommend';
+        $tab = $request->query('tab', $defaultTab);
 
-    // 🔍 検索ワード
-    $keyword = $request->input('keyword');
-
-
-    /**
-     * 🔥 マイリストタブ
-     */
-    if ($tab === 'mylist') {
-
-        // 未ログインならログインへ
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        // 🔥 検索があるなら「全商品から検索」
-        if (!empty($keyword)) {
-            $items = Item::where('name', 'like', "%{$keyword}%")
-                ->latest()
-                ->get();
-        } else {
-            // 🔥 検索がないなら「マイリストのみ」
-            $items = Item::whereHas('likes', function ($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->latest()
-            ->get();
-        }
-
-    } else {
+        // 🔍 検索ワード
+        $keyword = $request->input('keyword');
 
         /**
-         * 🔥 おすすめ（全商品）
+         * 🔥 マイリストタブ
          */
-        $items = Item::when($keyword, function ($query) use ($keyword) {
-                return $query->where('name', 'like', "%{$keyword}%");
-            })
-            ->latest()
-            ->get();
+        if ($tab === 'mylist') {
 
-        $tab = 'recommend';
+            // 🔥 未認証ユーザーは空の配列を表示
+            if (!Auth::check()) {
+                $items = collect();
+
+            // 🔥 検索があるなら「全商品から検索」
+            } elseif (!empty($keyword)) {
+                $items = Item::where('name', 'like', "%{$keyword}%")
+                    ->latest()
+                    ->get();
+
+            // 🔥 検索がないなら「マイリストのみ」
+            } else {
+                $items = Item::whereHas('likes', function ($query) {
+                        $query->where('user_id', auth()->id());
+                    })
+                    ->latest()
+                    ->get();
+            }
+
+        } else {
+            /**
+             * 🔥 おすすめ（全商品）
+             */
+            $items = Item::when($keyword, function ($query) use ($keyword) {
+                    return $query->where('name', 'like', "%{$keyword}%");
+                })
+                ->when(Auth::check(), function ($query) {
+                    return $query->where('user_id', '!=', auth()->id());
+                })
+                ->latest()
+                ->get();
+
+            $tab = 'recommend';
+        }
+
+        return view('items.index', compact('items', 'tab', 'keyword'));
     }
 
-    return view('items.index', compact('items', 'tab', 'keyword'));
-}
     /**
      * 商品詳細
      */
@@ -91,11 +93,11 @@ public function index(Request $request)
         $comment->load('user');
 
         return response()->json([
-            'success' => true,
-            'comment' => $comment->comment,
-            'user_name' => $comment->user->name,
+            'success'            => true,
+            'comment'            => $comment->comment,
+            'user_name'          => $comment->user->name,
             'user_profile_image' => $comment->user->profile_image_url,
-            'comments_count' => $item->comments()->count(),
+            'comments_count'     => $item->comments()->count(),
         ]);
     }
 
@@ -104,7 +106,7 @@ public function index(Request $request)
      */
     public function toggleLike(Item $item)
     {
-        $user = auth()->user();
+        $user  = auth()->user();
         $liked = $item->isLikedBy($user);
 
         if ($liked) {
@@ -114,8 +116,8 @@ public function index(Request $request)
         }
 
         return response()->json([
-            'liked' => !$liked,
-            'likes_count' => $item->likes()->count(),
+            'liked'        => !$liked,
+            'likes_count'  => $item->likes()->count(),
         ]);
     }
 }

@@ -30,7 +30,7 @@
     @endif
 </div>
 
-            <button type="submit" class="login-btn">ログイン</button>
+            <button type="submit" class="login-btn">ログインする</button>
         </form>
 
         <div class="register-link">

@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="purchase-complete-container">
-    <h2>購入が完了しました！</h2>
+    <h1>購入が完了しました！</h1>
 
     @if(session('success'))
         <p style="color:green;">{{ session('success') }}</p>

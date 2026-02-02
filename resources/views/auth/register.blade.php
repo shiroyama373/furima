@@ -41,9 +41,9 @@
                 @enderror
             </div>
 
-            <!-- パスワード確認 -->
+            <!-- 確認用パスワード -->
             <div class="form-group">
-                <label for="password_confirmation">パスワード確認</label>
+                <label for="password_confirmation">確認用パスワード</label>
                 <input id="password_confirmation" name="password_confirmation" type="password" 
                        class="@error('password_confirmation') input-error @enderror">
                 @error('password_confirmation')

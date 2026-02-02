@@ -19,7 +19,6 @@ class CommentController extends Controller
             'comment' => $validated['comment'],
         ]);
 
-        // 投稿後は元のページへリダイレクトして入力内容保持
-        return redirect()->back()->withInput();
+        return redirect()->back();
     }
 }

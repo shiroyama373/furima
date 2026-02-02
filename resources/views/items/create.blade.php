@@ -21,7 +21,7 @@
 
         <!-- 商品画像 -->
         <div class="form-section">
-            <h3>商品画像</h3>
+            <h2>商品画像</h2>
             <div class="image-box-outer">
                 <div class="image-box-inner">
                     <label class="image-label">

@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             AddressesTableSeeder::class,
             CommentsTableSeeder::class,
             LikesTableSeeder::class,
-            ItemSeeder::class,
 
         ]);
     }

@@ -38,7 +38,7 @@ return [
     'digits_between'       => ':attributeは、:min桁から:max桁にしてください。',
     'dimensions'           => ':attributeの画像サイズが無効です',
     'distinct'             => ':attributeの値が重複しています。',
-    'email'                => ':attributeは、有効なメールアドレス形式で指定してください。',
+    'email'                => ':attributeは、有効なメールアドレス形式で指定してください',
     'ends_with'            => ':attributeは、次のうちのいずれかで終わらなければなりません。: :values',
     'exists'               => '選択された:attributeは、有効ではありません。',
     'file'                 => ':attributeはファイルでなければいけません。',
@@ -130,11 +130,19 @@ return [
     */
 
     'custom' => [
+    'name' => [
+        'required' => 'お名前を入力してください',
+    ],
     'email' => [
         'required' => 'メールアドレスを入力してください',
+        'email' => 'メールアドレスはメール形式で入力してください',
     ],
     'password' => [
         'required' => 'パスワードを入力してください',
+        'min' => 'パスワードは8文字以上で入力してください',
+    ],
+    'password_confirmation' => [
+        'same' => 'パスワードと一致しません',
     ],
 ],
 

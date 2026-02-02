@@ -33,7 +33,7 @@
 
             <div class="item-stats">
                 <!-- いいねボタン -->
-                <button type="button" class="btn-like {{ $isLiked ? 'liked' : '' }}" @if(auth()->check()) data-item-id="{{ $item->id }}" @endif>
+                <button type="button" class="btn-like {{ $isLiked ? 'liked' : '' }}" data-item-id="{{ $item->id }}" >
                     <i class="{{ $isLiked ? 'fas' : 'far' }} fa-heart"></i>
                     <span class="count">{{ $item->likes->count() }}</span>
                 </button>
@@ -58,17 +58,17 @@
 
             <!-- 商品説明ブロック -->
             <div class="item-block item-description-block">
-                <h3>商品説明</h3>
+                <h2>商品説明</h2>
                 <p class="item-description">{{ $item->description }}</p>
             </div>
 
             <!-- 商品情報ブロック -->
           <!-- 商品情報ブロック -->
 <div class="item-block item-info-block">
-    <h3>商品の情報</h3>
+    <h2>商品の情報</h2>
 
   <div class="category-row">
-    <h4 class="info-label">カテゴリー</h4>
+    <h3 class="info-label">カテゴリー</h3>
     <div class="item-categories">
         @forelse($item->categories as $category)
             <span class="category-label">{{ $category->name }}</span>
@@ -78,7 +78,7 @@
     </div>
 </div>
 <div class="category-row">
-    <h4 class="info-label">商品の状態</h4>
+    <h3 class="info-label">商品の状態</h3>
     <p class="item-condition">{{ $item->condition }}</p>
 </div>
 
@@ -118,7 +118,7 @@
 </div>
     <!-- コメント投稿フォーム -->
     <div class="comment-post-section">
-        <h4>商品へのコメント</h4>
+        <h3>商品へのコメント</h3>
         <form action="{{ route('items.comment', $item->id) }}" method="POST" class="comment-post-form">
             @csrf
             <textarea name="comment" placeholder="コメントを入力">{{ old('comment') }}</textarea>
@@ -144,13 +144,20 @@
 @endsection
 
 @section('scripts')
-@auth
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.btn-like').forEach(btn => {
         btn.addEventListener('click', function(){
             const itemId = btn.dataset.itemId;
             if(!itemId) return;
+
+// 未ログインの場合はログインページへ
+            @guest
+            window.location.href = "{{ route('login') }}";
+            return;
+            @endguest
+
+
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const likeCountSpan = btn.querySelector('.count');
             const icon = btn.querySelector('i');
@@ -181,5 +188,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endauth
 @endsection

@@ -23,6 +23,7 @@ docker-compose up -d
 ### Laravel環境構築
 ```bash
 docker-compose exec php bash
+cd /var/www
 composer install
 cp .env.example .env      # 環境変数を変更
 php artisan key:generate
@@ -97,7 +98,7 @@ php artisan test --filter LoginTest
 
 ## ER図
 
-![ER図](images/furima.drawio.png)
+![ER図](images/furima_er_diagram.png)
 
 ## ダミーデータについて
 

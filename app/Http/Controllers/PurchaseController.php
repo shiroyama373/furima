@@ -15,7 +15,7 @@ class PurchaseController extends Controller
     // 購入画面表示
     public function create(Item $item)
     {
-        $user = auth()->user()->fresh(); 
+        $user = auth()->user()->fresh();
 
         if (request()->has('cancel')) {
             session()->flash('error', '決済をキャンセルしました');
@@ -48,6 +48,9 @@ class PurchaseController extends Controller
             return back()->with('error', '支払い方法を選択してください');
         }
 
+        // ★ 支払い方法をsessionに保存
+        session(['payment_method' => $data['payment_method']]);
+
         /**
          * 🔥 コンビニ払い
          */
@@ -72,6 +75,16 @@ class PurchaseController extends Controller
             return back()->with('error', 'この商品はすでに購入されています。');
         }
 
+        // ★★★ Stripeセッション作成前に購入データを保存 ★★★
+        Purchase::create([
+            'user_id' => auth()->id(),
+            'item_id' => $item->id,
+            'payment_method' => 'convenience_store',
+        ]);
+
+        // ★★★ 商品をsoldに更新 ★★★
+        $item->update(['sold' => 1]);
+
         Stripe::setApiKey(config('services.stripe.secret'));
 
         $imageUrl = filter_var($item->image_path, FILTER_VALIDATE_URL)
@@ -80,37 +93,36 @@ class PurchaseController extends Controller
 
         try {
             $session = Session::create([
-                'payment_method_types' => ['konbini'], // ← コンビニ支払い
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'jpy',
-                        'unit_amount' => $item->price,
-                        'product_data' => [
-                            'name' => $item->name,
-                            'images' => [$imageUrl],
+                'payment_method_types' => ['konbini'],
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'jpy',
+                            'unit_amount' => $item->price,
+                            'product_data' => [
+                                'name' => $item->name,
+                                'images' => [$imageUrl],
+                            ],
                         ],
+                        'quantity' => 1,
                     ],
-                    'quantity' => 1,
-                ]],
+                ],
                 'mode' => 'payment',
-
-                // 成功時の遷移先
                 'success_url' => route('purchase.complete', $item->id),
-
-                // キャンセル
                 'cancel_url'  => route('purchase.create', $item->id) . '?cancel=1',
-
-                'metadata' => [
-                    'item_id' => $item->id,
-                    'user_id' => auth()->id(),
+                'metadata'    => [
+                    'item_id'        => $item->id,
+                    'user_id'        => auth()->id(),
                     'payment_method' => 'konbini',
                 ],
             ]);
 
             return redirect($session->url);
-
         } catch (\Exception $e) {
-            return back()->with('error', 'コンビニ決済の作成に失敗しました：' . $e->getMessage());
+            return back()->with(
+                'error',
+                'コンビニ決済の作成に失敗しました:' . $e->getMessage()
+            );
         }
     }
 
@@ -140,7 +152,8 @@ class PurchaseController extends Controller
             'building'    => $data['building'] ?? null,
         ]);
 
-        return redirect()->route('purchase.create', $item->id)
+        return redirect()
+            ->route('purchase.create', $item->id)
             ->with('success', '住所を更新しました。');
     }
 
@@ -159,25 +172,25 @@ class PurchaseController extends Controller
 
         $session = Session::create([
             'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'unit_amount' => $item->price,
-                    'product_data' => [
-                        'name' => $item->name,
-                        'images' => [$imageUrl],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'unit_amount' => $item->price,
+                        'product_data' => [
+                            'name' => $item->name,
+                            'images' => [$imageUrl],
+                        ],
                     ],
+                    'quantity' => 1,
                 ],
-                'quantity' => 1,
-            ]],
+            ],
             'mode' => 'payment',
             'success_url' => route('purchase.complete', $item->id),
             'cancel_url'  => route('purchase.create', $item->id) . '?cancel=1',
-
-
             'metadata'    => [
-                'item_id' => $item->id,
-                'user_id' => auth()->id(),
+                'item_id'        => $item->id,
+                'user_id'        => auth()->id(),
                 'payment_method' => 'card',
             ],
         ]);
@@ -188,6 +201,30 @@ class PurchaseController extends Controller
     // 完了画面
     public function complete(Item $item)
     {
+        // すでに購入済みかチェック
+        $existingPurchase = Purchase::where('user_id', auth()->id())
+            ->where('item_id', $item->id)
+            ->first();
+
+        // まだ購入データがない場合のみ保存（カード払い用）
+        if (!$existingPurchase && !$item->sold) {
+            // ★ sessionから支払い方法を取得
+            $paymentMethod = session('payment_method', 'card');
+
+            // 購入データを保存
+            Purchase::create([
+                'user_id'        => auth()->id(),
+                'item_id'        => $item->id,
+                'payment_method' => $paymentMethod,
+            ]);
+
+            // 商品をsoldに更新
+            $item->update(['sold' => 1]);
+        }
+
+        // sessionをクリア
+        session()->forget('payment_method');
+
         return view('purchase.complete', compact('item'));
     }
 }
